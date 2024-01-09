@@ -9,9 +9,12 @@ from . import views
     # view.home -> we anticipate there to be a home function within views.py
 # step 3 -> create anticipated html file in template file
 
+
+
 urlpatterns =[
     path('',views.home, name='home'),
     # \ comes wiith " "8000 no need to add for next pages
     path('about/', views.about, name='about'),
-    # path('about/', views.about, name='about'),
+    
+    path('cats/', views.cats_index, name='index'),
 ]
