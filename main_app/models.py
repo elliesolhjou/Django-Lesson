@@ -37,11 +37,11 @@ class Feeding(models.Model):
     # the One side gets referred in many side as FK
       # Create a cat_id FK
     # ForeignKey -> cretaed OnetoMany relationship
-    cat = models.ForeignKey(Cat, on_delete=models.CASCADE, null= True)
+    cat = models.ForeignKey(Cat, on_delete=models.CASCADE)
     # since feeding belongs to a cat it should hold cats ID -> FK
 
     def __str__(self):
-        # Nice method for obtaining the friendly value of a Field.choice(MEAL)
+        # accessing teh choices options - Field.choice(MEAL) -> get_meal_display()
         return f'{self.get_meal_display()} on {self.date}'
     
     

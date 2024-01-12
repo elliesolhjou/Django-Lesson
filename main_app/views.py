@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView,UpdateView, DeleteView
-from .models import Cat, Feeding
+from .models import Cat
+from .forms import FeedingForm
 
 # Create your views here.
 # request passed to here
@@ -31,8 +32,15 @@ def cats_index(request):
   })
 
 def cats_detail(request, cat_id):
+  #  Cat is a class -> needs instanciation
    cat=Cat.objects.get(id=cat_id)
-   return render(request, 'cats/detail.html', {'cat':cat})
+  #  FeedingForm is a class -> needs instanciation
+   feeding_form = FeedingForm()
+  #  we needd to pass along the form to show up on detail page -> we pass it to html 
+  #  as an object to be rendered on html
+  #  no need to create table on detail page
+   return render(request, 'cats/detail.html', {'cat': cat, 'feeding_form': feeding_form
+  })
 
 '''
 # List View is built-in CBV functionality for index/showall
@@ -70,19 +78,30 @@ class CatDelete(DeleteView):
   model = Cat
   success_url = '/cats'
 
+# CBV IS BEST PRACTICE TO CRUD
+  # CBV automatically created nstance for ModelForm
+  # CBV under the hood grabs the input inside instance of ModelForm and pass it to server
+  # CBV automatically save() after any CRUD
 
 
+# manual way of form and input generation
+  # STEP1 - TOUCH FORMS.PY with Meta class
 def add_feeding(request, cat_id):
    # create a ModelForm instance using the data in request.POST
-  form = FeedingForm(request.POST)
+  feeding_form = FeedingForm(request.POST)
+  print('hitting here 0')
   # validate the form
-  if form.is_valid():
+  if feeding_form.is_valid():
+    print (True)
     # don't save the form to the db until it
     # has the cat_id assigned
-    new_feeding = form.save(commit=False)
+    new_feeding = feeding_form.save(commit=False)
     new_feeding.cat_id = cat_id
+    print('hitting here')
     new_feeding.save()
+    print('hitting here2')
   return redirect('detail', cat_id=cat_id)
+
 
 
 '''
