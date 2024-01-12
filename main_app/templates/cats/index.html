@@ -2,7 +2,7 @@
 {% block content %}
 
 <h1>Cat List</h1>
-
+<a href="{% url 'cat_create' %}">Add a cat</a>
 {% for cat in cats %}
   <div class="card">
     <a href="{% url 'detail' cat.id %}">
